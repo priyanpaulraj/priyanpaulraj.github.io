@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://priyanpaulraj.github.io/sitemap.xml 
