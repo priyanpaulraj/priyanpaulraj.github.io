@@ -45,11 +45,7 @@
                     </div>
                     <div class="flex gap-4">
                         <div class="text-blue-500 font-bold text-sm">03</div>
-                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Card/Online Payments:</strong> The Payment App (like Razorpay) charges the Shop Owner a small fee. The customer doesn't pay this extra tax.</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="text-blue-500 font-bold text-sm">04</div>
-                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Cash on Delivery:</strong> If a courier charges a "handling fee" for collecting cash, that fee has its own tax.</p>
+                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Online Payments:</strong> The Payment App (like Razorpay) charges the shop owner a fee. The customer doesn't pay this extra tax.</p>
                     </div>
                 </div>
             </div>
@@ -62,11 +58,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div onclick="select('payment', 'COD', 1)" id="opt-payment-COD" class="option-card p-5 rounded-lg bg-white">
                         <p class="font-bold text-sm">Cash on Delivery (COD)</p>
-                        <p class="text-[10px] text-slate-500 mt-1">Paying in person when the item arrives.</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Example: Customer pays the delivery boy cash when the box arrives.</p>
                     </div>
                     <div onclick="select('payment', 'PG', 1)" id="opt-payment-PG" class="option-card p-5 rounded-lg bg-white">
                         <p class="font-bold text-sm">Online Payment</p>
-                        <p class="text-[10px] text-slate-500 mt-1">Paying via Card, UPI, or Net Banking now.</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Example: Customer pays via UPI or Credit Card on the website.</p>
                     </div>
                 </div>
             </section>
@@ -109,12 +105,21 @@
 
         function select(cat, val, step) {
             state[cat] = val;
+
+            // Highlight the selected card
             document.querySelectorAll(`[id^="opt-${cat}-"]`).forEach(el => el.classList.remove('selected'));
             document.getElementById(`opt-${cat}-${val}`).classList.add('selected');
 
+            // REFRESH LOGIC: Reset later steps if an earlier step is changed
             if (step === 1) {
+                state.delivery = ''; state.billing = '';
                 document.getElementById('step-2').classList.remove('hidden-step');
+                document.getElementById('step-3').classList.add('hidden-step');
+                document.getElementById('results').classList.add('hidden-step');
+                document.querySelectorAll('#step-2 .option-card').forEach(el => el.classList.remove('selected'));
             } else if (step === 2) {
+                state.billing = '';
+                document.getElementById('results').classList.add('hidden-step');
                 if (val === 'Pickup') { 
                     state.billing = 'None'; 
                     renderResults(); 
@@ -130,10 +135,10 @@
         function renderBilling(type) {
             const wrap = document.getElementById('billing-wrap');
             let opts = type === 'OwnFleet' ? 
-                [{ id: 'Inc', t: 'Free Delivery / Price Includes Delivery', d: 'The shop covers the cost. No separate delivery tax for customer.' }, 
-                 { id: 'Sep', t: 'Shop Charges for Delivery', d: 'The shop adds a delivery fee to the bill and taxes it.' }] :
-                [{ id: 'Mer', t: 'Shop Bills the Total Amount', d: 'Customer pays the shop for everything. The shop then pays the courier.' }, 
-                 { id: 'Cou', t: 'Courier Bills Customer Directly', d: 'The courier company asks the customer for delivery money + tax.' }];
+                [{ id: 'Inc', t: 'Free Delivery / Price Includes Delivery', d: 'Example: The pizza costs ₹500 including delivery. No extra tax line for shipping.' }, 
+                 { id: 'Sep', t: 'Shop Charges for Delivery', d: 'Example: Bill shows ₹500 for Product + ₹50 for Delivery.' }] :
+                [{ id: 'Mer', t: 'Shop Bills the Total Amount', d: 'Example: You pay the shop ₹550. The shop handles the courier payment later.' }, 
+                 { id: 'Cou', t: 'Courier Bills Customer Directly', d: 'Example: You pay for the item online, but pay the delivery guy ₹50 for shipping.' }];
             
             wrap.innerHTML = opts.map(o => `
                 <div onclick="select('billing', '${o.id}', 3)" id="opt-billing-${o.id}" class="option-card p-5 rounded-lg bg-white">
@@ -150,26 +155,19 @@
             
             let rows = [];
             
-            // The Customer (Buyer)
+            // The Customer
             let buyerNote = "Pays tax on the product.";
-            if (state.billing === 'Cou') {
-                buyerNote += " Also pays tax on delivery directly to the courier.";
-            } else if (state.billing === 'Sep' || state.billing === 'Mer') {
-                buyerNote += " Also pays tax on delivery as part of the shop's bill.";
-            }
+            if (state.billing === 'Cou') buyerNote += " Also pays tax on delivery directly to the courier.";
+            else if (state.billing === 'Sep' || state.billing === 'Mer') buyerNote += " Also pays tax on delivery as part of the shop's bill.";
             rows.push({ a: 'The Customer', r: buyerNote });
             
-            // The Shop Owner (Merchant)
+            // The Shop Owner
             let merchantDuty = "Collects tax on the product and pays it to the government.";
-            if (state.billing === 'Sep' || state.billing === 'Mer') {
-                merchantDuty += " They also collect and pay the tax for the delivery fee.";
-            }
+            if (state.billing === 'Sep' || state.billing === 'Mer') merchantDuty += " They also collect and pay the tax for the delivery fee.";
             rows.push({ a: 'The Shop Owner', r: merchantDuty });
 
-            // The Payment App (Payment Gateway)
-            if (state.payment === 'PG') {
-                rows.push({ a: 'Payment App', r: "Charges the shop owner a small service fee + tax. The customer does not pay this tax." });
-            }
+            // The Payment App
+            if (state.payment === 'PG') rows.push({ a: 'Payment App', r: "Charges the shop owner a small fee + tax. The customer is not charged for this." });
 
             // The Delivery Side
             if (state.delivery === 'ThirdParty') {
@@ -178,12 +176,10 @@
                     if (state.payment === 'COD') courierNote += "They also collect tax on the extra COD handling fee.";
                     rows.push({ a: 'Courier Company', r: courierNote });
                 } else {
-                    rows.push({ a: 'Courier Company', r: "Bills the Shop Owner for their services. The Shop Owner can use this to lower their own tax bill (Tax Credit)." });
+                    rows.push({ a: 'Courier Company', r: "Sends a bill to the Shop Owner. The Shop Owner can use this bill to reduce their own tax payments." });
                 }
-            } else if (state.delivery === 'OwnFleet') {
-                if (state.billing === 'Inc') {
-                    rows.push({ a: 'Delivery Staff', r: "Since delivery is 'free' or included, there is no separate tax to worry about here." });
-                }
+            } else if (state.delivery === 'OwnFleet' && state.billing === 'Inc') {
+                rows.push({ a: 'Delivery Staff', r: "No separate delivery tax because the shipping is included in the item price." });
             }
 
             table.innerHTML = rows.map(row => `
