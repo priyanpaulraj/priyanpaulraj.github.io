@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional GST Responsibility Matrix</title>
+    <title>Simple GST Responsibility Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -20,10 +20,10 @@
 
     <header class="bg-white border-b border-slate-200 py-4 px-6 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <span class="text-xs font-black tracking-widest uppercase text-slate-400">Tax Compliance Logic</span>
+            <span class="text-xs font-black tracking-widest uppercase text-slate-400">Simple Tax Flow Guide</span>
             <button onclick="window.location.reload()" class="text-xs font-bold text-blue-600 flex items-center hover:underline">
                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                RESET MATRIX
+                START OVER
             </button>
         </div>
     </header>
@@ -32,24 +32,24 @@
         
         <aside class="lg:col-span-1 space-y-4">
             <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm sticky top-24">
-                <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">Key GST Principles</h2>
+                <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">How it Works</h2>
                 
                 <div class="space-y-6">
                     <div class="flex gap-4">
                         <div class="text-blue-500 font-bold text-sm">01</div>
-                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Product GST:</strong> Always charged by Merchant & filed via their return. Applies to both COD & PG.</p>
+                        <p class="text-xs text-slate-600 leading-relaxed"><strong>The Product:</strong> The Shop Owner always collects the tax for the item and pays it to the government.</p>
                     </div>
                     <div class="flex gap-4">
                         <div class="text-blue-500 font-bold text-sm">02</div>
-                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Delivery GST:</strong> Liability follows the invoice owner. If Merchant bills, Merchant collects. If 3rd-party bills, they collect.</p>
+                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Delivery Fees:</strong> Whoever asks the customer for the delivery money is the one responsible for the tax on that fee.</p>
                     </div>
                     <div class="flex gap-4">
                         <div class="text-blue-500 font-bold text-sm">03</div>
-                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Payment Gateway:</strong> PG charges MDR + GST to the Merchant (B2B), never directly to the customer.</p>
+                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Card/Online Payments:</strong> The Payment App (like Razorpay) charges the Shop Owner a small fee. The customer doesn't pay this extra tax.</p>
                     </div>
                     <div class="flex gap-4">
                         <div class="text-blue-500 font-bold text-sm">04</div>
-                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Handling Charges:</strong> COD fees are taxable as service income by the party collecting them (usually the courier).</p>
+                        <p class="text-xs text-slate-600 leading-relaxed"><strong>Cash on Delivery:</strong> If a courier charges a "handling fee" for collecting cash, that fee has its own tax.</p>
                     </div>
                 </div>
             </div>
@@ -58,40 +58,42 @@
         <div class="lg:col-span-2 space-y-10">
             
             <section id="step-1" class="fade-in">
-                <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">1. Payment Mode</h3>
+                <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">1. How is the customer paying?</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div onclick="select('payment', 'COD', 1)" id="opt-payment-COD" class="option-card p-5 rounded-lg bg-white">
-                        <p class="font-bold text-sm">Cash on Delivery</p>
+                        <p class="font-bold text-sm">Cash on Delivery (COD)</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Paying in person when the item arrives.</p>
                     </div>
                     <div onclick="select('payment', 'PG', 1)" id="opt-payment-PG" class="option-card p-5 rounded-lg bg-white">
-                        <p class="font-bold text-sm">Payment Gateway (Prepaid)</p>
+                        <p class="font-bold text-sm">Online Payment</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Paying via Card, UPI, or Net Banking now.</p>
                     </div>
                 </div>
             </section>
 
             <section id="step-2" class="hidden-step fade-in">
-                <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">2. Fulfillment Scenario</h3>
+                <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">2. How is it being delivered?</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div onclick="select('delivery', 'Pickup', 2)" id="opt-delivery-Pickup" class="option-card p-5 rounded-lg bg-white text-center">
-                        <p class="font-bold text-xs">In-Store Pickup</p>
+                        <p class="font-bold text-xs">Customer Picks Up</p>
                     </div>
                     <div onclick="select('delivery', 'OwnFleet', 2)" id="opt-delivery-OwnFleet" class="option-card p-5 rounded-lg bg-white text-center">
-                        <p class="font-bold text-xs">Own Fleet Delivery</p>
+                        <p class="font-bold text-xs">Shop's Own Delivery Boy</p>
                     </div>
                     <div onclick="select('delivery', 'ThirdParty', 2)" id="opt-delivery-ThirdParty" class="option-card p-5 rounded-lg bg-white text-center">
-                        <p class="font-bold text-xs">3rd-Party Courier</p>
+                        <p class="font-bold text-xs">Outside Courier Company</p>
                     </div>
                 </div>
             </section>
 
             <section id="step-3" class="hidden-step fade-in">
-                <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">3. Delivery Invoicing</h3>
+                <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">3. Who handles the delivery bill?</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="billing-wrap"></div>
             </section>
 
             <div id="results" class="hidden-step fade-in bg-white border border-slate-200 rounded-xl overflow-hidden shadow-md">
                 <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-                    <h2 class="text-xs font-bold uppercase tracking-widest">Responsibility Result</h2>
+                    <h2 class="text-xs font-bold uppercase tracking-widest">Who is responsible?</h2>
                     <span id="result-path" class="text-[10px] opacity-60 font-medium"></span>
                 </div>
                 <table class="w-full text-left">
@@ -113,18 +115,25 @@
             if (step === 1) {
                 document.getElementById('step-2').classList.remove('hidden-step');
             } else if (step === 2) {
-                if (val === 'Pickup') { state.billing = 'None'; renderResults(); }
-                else { renderBilling(val); document.getElementById('step-3').classList.remove('hidden-step'); }
-            } else if (step === 3) { renderResults(); }
+                if (val === 'Pickup') { 
+                    state.billing = 'None'; 
+                    renderResults(); 
+                } else { 
+                    renderBilling(val); 
+                    document.getElementById('step-3').classList.remove('hidden-step'); 
+                }
+            } else if (step === 3) { 
+                renderResults(); 
+            }
         }
 
         function renderBilling(type) {
             const wrap = document.getElementById('billing-wrap');
             let opts = type === 'OwnFleet' ? 
-                [{ id: 'Inc', t: 'Delivery Included', d: 'Merchant absorbs cost (tax on product only).' }, 
-                 { id: 'Sep', t: 'Merchant Bills Delivery', d: 'Merchant adds delivery line item to invoice.' }] :
-                [{ id: 'Mer', t: 'Merchant Invoices Total', d: 'Merchant bills ₹540 total; Courier bills Merchant B2B.' }, 
-                 { id: 'Cou', t: 'Courier Bills Customer', d: 'Courier collects ₹40 + GST directly from customer.' }];
+                [{ id: 'Inc', t: 'Free Delivery / Price Includes Delivery', d: 'The shop covers the cost. No separate delivery tax for customer.' }, 
+                 { id: 'Sep', t: 'Shop Charges for Delivery', d: 'The shop adds a delivery fee to the bill and taxes it.' }] :
+                [{ id: 'Mer', t: 'Shop Bills the Total Amount', d: 'Customer pays the shop for everything. The shop then pays the courier.' }, 
+                 { id: 'Cou', t: 'Courier Bills Customer Directly', d: 'The courier company asks the customer for delivery money + tax.' }];
             
             wrap.innerHTML = opts.map(o => `
                 <div onclick="select('billing', '${o.id}', 3)" id="opt-billing-${o.id}" class="option-card p-5 rounded-lg bg-white">
@@ -137,29 +146,44 @@
         function renderResults() {
             const table = document.getElementById('res-table');
             const path = document.getElementById('result-path');
-            path.innerText = `${state.payment} → ${state.delivery} → ${state.billing}`;
+            path.innerText = `${state.payment} • ${state.delivery} • ${state.billing}`;
             
             let rows = [];
-            // Buyer
-            rows.push({ a: 'Buyer', r: `Pays Product GST. ${state.billing === 'Cou' ? ' Also pays separate GST on Delivery directly to courier.' : ''}` });
             
-            // Merchant
-            let merchantDuty = "Collects & Remits GST on Product.";
-            if (state.billing === 'Sep' || state.billing === 'Mer') merchantDuty += " Also collects GST on Delivery fee.";
-            rows.push({ a: 'Merchant', r: merchantDuty });
+            // The Customer (Buyer)
+            let buyerNote = "Pays tax on the product.";
+            if (state.billing === 'Cou') {
+                buyerNote += " Also pays tax on delivery directly to the courier.";
+            } else if (state.billing === 'Sep' || state.billing === 'Mer') {
+                buyerNote += " Also pays tax on delivery as part of the shop's bill.";
+            }
+            rows.push({ a: 'The Customer', r: buyerNote });
+            
+            // The Shop Owner (Merchant)
+            let merchantDuty = "Collects tax on the product and pays it to the government.";
+            if (state.billing === 'Sep' || state.billing === 'Mer') {
+                merchantDuty += " They also collect and pay the tax for the delivery fee.";
+            }
+            rows.push({ a: 'The Shop Owner', r: merchantDuty });
 
-            // PG
-            if (state.payment === 'PG') rows.push({ a: 'Payment Gateway', r: "Charges MDR + GST to Merchant (B2B). Customer does not pay PG taxes." });
+            // The Payment App (Payment Gateway)
+            if (state.payment === 'PG') {
+                rows.push({ a: 'Payment App', r: "Charges the shop owner a small service fee + tax. The customer does not pay this tax." });
+            }
 
-            // Delivery
+            // The Delivery Side
             if (state.delivery === 'ThirdParty') {
                 if (state.billing === 'Cou') {
-                    rows.push({ a: '3rd-Party Courier', r: "Collects Delivery GST directly. If COD is chosen, they also tax COD handling charges." });
+                    let courierNote = "Responsible for tax on the delivery fee. ";
+                    if (state.payment === 'COD') courierNote += "They also collect tax on the extra COD handling fee.";
+                    rows.push({ a: 'Courier Company', r: courierNote });
                 } else {
-                    rows.push({ a: '3rd-Party Courier', r: "Bills Merchant (Service GST). Merchant claims Input Tax Credit (ITC)." });
+                    rows.push({ a: 'Courier Company', r: "Bills the Shop Owner for their services. The Shop Owner can use this to lower their own tax bill (Tax Credit)." });
                 }
-            } else if (state.delivery === 'OwnFleet' && state.billing === 'Inc') {
-                rows.push({ a: 'Delivery Staff', r: "Internal expense (Salary/Fuel). No separate GST liability." });
+            } else if (state.delivery === 'OwnFleet') {
+                if (state.billing === 'Inc') {
+                    rows.push({ a: 'Delivery Staff', r: "Since delivery is 'free' or included, there is no separate tax to worry about here." });
+                }
             }
 
             table.innerHTML = rows.map(row => `
